@@ -3,7 +3,8 @@
     "beforeBuildCommand": "",
     "beforeDevCommand": "",
     "devPath": "../frontend",
-    "distDir": "../frontend"
+    "distDir": "../frontend",
+    "withGlobalTauri":true
   },
   "package": {
     "productName": "png_metadata_editor",
@@ -55,7 +56,7 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 720,
         "resizable": true,
         "title": "Png Metadata Editor",
         "width": 800
