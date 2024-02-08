@@ -1,0 +1,13 @@
+:root{
+    --dark-color:#172430;
+    --light-color:#fffeff;
+    --accent-color:#e26a69;
+}
+
+
+body{
+    margin: 0;
+    background-color: var(--dark-color);
+    color: var(--light-color);
+    border:1px solid red
+}
