@@ -20,41 +20,40 @@ impl serde::Serialize for Error {
     }
 }
 
-// fn read_img_test() -> Result<String, Error> {
-//     let mut formatted_strings = String::new();
-//     let file = std::fs::File::open(
-//         "C:/Users/wesle/OneDrive/Área de Trabalho/Projects/edit_png/src-tauri/src/test_img/to_test.png"
-//     )?;
-//     let mut bufreader = std::io::BufReader::new(&file);
-//     let exifreader = exif::Reader::new();
-//     let exif = exifreader.read_from_container(&mut bufreader)?;
-//     for f in exif.fields() {
-//         let formatted_str = format!("All --> {:?}", f);
-//         println!("{} {} {}", f.tag, f.ifd_num, f.display_value().with_unit(&exif));
-//         formatted_strings.push_str(&formatted_str);
-//     }
-//     Ok(formatted_strings)
-// }
-use std::fs::{ self, File };
-use img_parts::png::Png;
-use img_parts::{ ImageEXIF, ImageICC };
+// use img_parts::png::Png;
+// use img_parts::{ ImageEXIF, ImageICC };
+// use std::fs::{ self, File };
+// use std::fmt;
+
 #[tauri::command]
-fn read_img_test() -> Result<String, Error> {
-    let mut formatted_strings = String::new();
-    let path =
-        "C:/Users/wesle/OneDrive/Imagens/AI_Generated/datasets/eva_green_dataset/output/to_send/to_edit/done/DftWuo86l-fCMaIh6WF2H_.png";
-    let input = fs::read(&path)?;
-
-    let png = Png::from_bytes(input.into())?;
-    let iccprofile = png.icc_profile();
-    let exif_metadata = png.exif();
-    let png_encoded = png.encoder().read();
-    let formatted_str = format!("All --> {:?}", exif_metadata);
-    println!("{:?}", png_encoded);
-    formatted_strings.push_str(&formatted_str);
-
+fn read_img_test() -> Result<Vec<String>, Error> {
+    let mut formatted_strings = Vec::new();
+    let img_path =
+        "C:/Users/wesle/OneDrive/Área de Trabalho/Projects/edit_png/src-tauri/src/test_img/to_test.png";
+    let decoder = png::Decoder::new(std::fs::File::open(img_path).unwrap());
+    let mut reader = decoder.read_info().unwrap();
+    // println!("Reader: {}", reader);
+    let mut buf = vec![0; reader.output_buffer_size()];
+    let info = reader.next_frame(&mut buf).unwrap();
+    println!("Info: {:?}", info);
+    println!("INFO LIST --> {:?}", &reader.info().uncompressed_latin1_text[1]);
+    // let img_info = format!(
+    //     "parameters:{:?}, data_parameters:{:?}",
+    //     &reader.info().uncompressed_latin1_text[0].text,
+    //     &reader.info().uncompressed_latin1_text[1].text
+    // );
+    // formatted_strings.push_str(&img_info);
+    let parameters = format!("{:?}", &reader.info().uncompressed_latin1_text[0].text);
+    let data_parameters = format!("{:?}", &reader.info().uncompressed_latin1_text[1].text);
+    formatted_strings.push(parameters);
+    formatted_strings.push(data_parameters);
+    // for text_chunk in &reader.info().uncompressed_latin1_text {
+    //     println!("Keyword: {:?}", text_chunk.keyword);
+    //     println!("Text Chunk: {:?}", text_chunk);
+    // }
     Ok(formatted_strings)
 }
+
 fn main() {
     tauri::Builder
         ::default()

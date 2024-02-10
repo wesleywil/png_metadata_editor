@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Show uploaded image
     const upload = document.getElementById("png_file");
     const container = document.getElementById("to_remove");
-    const imgParams = document.getElementById("text_params");
+
     upload.addEventListener("change", () => {
         const selectedFile = upload.files[0];
         const reader = new FileReader();
@@ -17,12 +17,15 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(selectedFile);
 
     });
-
+    const imgParams = document.getElementById("text_params");
+    const dataParams = document.getElementById("generation_data_params");
     // Rust tauri tests
     const { invoke } = window.__TAURI__.tauri
     invoke('read_img_test')
         .then((response) => {
             console.log('RESPONSE FROM INVOKE READ IMG TEST ---> ', response)
+            imgParams.value = response[0];
+            dataParams.value = response[1]
         })
         .catch((error) => {
             console.log('ERROR ---> ', error);
