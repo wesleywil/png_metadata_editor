@@ -69,6 +69,7 @@ dependencies = [
  "img-parts",
  "kamadak-exif",
  "little_exif",
+ "png",
  "serde",
  "serde_json",
  "tauri",
