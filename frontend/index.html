@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="assets/css/styles.css" />
     <script type="module" src="assets/js/scripts.js"></script>
     <title>Png Metadata Editor</title>
-  </head>
-  <body>
+</head>
+
+<body>
     <section class="container">
         <!-- Image and Upload Button -->
         <div class="sub_container">
             <div id="to_remove" class="to_remove"></div>
-            <input type="file" name="png_file" id="png_file" class="btn_upload">
+            <button id="btn_upload_img">Upload Image</button>
+            <!-- <input type="file" name="png_file" id="png_file" class="btn_upload"> -->
         </div>
         <!-- Image Info and Edit Buttons -->
         <div class="sub_container">
@@ -20,7 +23,7 @@
             <!-- Text Parameters -->
             <div class="img_prompt_container">
                 <span>Prompt</span>
-                <textarea name="text_params" id="text_params"  rows="8" placeholder="Image Text Parameters"></textarea>
+                <textarea name="text_params" id="text_params" rows="8" placeholder="Image Text Parameters"></textarea>
                 <div class="btn_container">
                     <button>Update Prompt</button>
                 </div>
@@ -28,13 +31,14 @@
             <!-- Text Generation_Data -->
             <div class="img_generation_data_container">
                 <span>Extra Info</span>
-                <textarea name="generation_data_params" id="generation_data_params" rows="8" placeholder="Image Generation Data"></textarea>
+                <textarea name="generation_data_params" id="generation_data_params" rows="8"
+                    placeholder="Image Generation Data"></textarea>
                 <div class="btn_container">
                     <button>Update Data</button>
                 </div>
             </div>
         </div>
     </section>
-  </body>
- 
+</body>
+
 </html>

@@ -4,7 +4,7 @@
     "beforeDevCommand": "",
     "devPath": "../frontend",
     "distDir": "../frontend",
-    "withGlobalTauri":true
+    "withGlobalTauri": true
   },
   "package": {
     "productName": "png_metadata_editor",
@@ -12,7 +12,14 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false
+      "all": false,
+      "http": {
+        "all": true,
+        "request": true
+      },
+      "dialog": {
+        "open": true
+      }
     },
     "bundle": {
       "active": true,

@@ -10,6 +10,7 @@ fn greet(name: &str) -> String {
 enum Error {
     #[error(transparent)] Exif(#[from] exif::Error),
     #[error(transparent)] ImgParts(#[from] img_parts::Error),
+    #[error(transparent)] Png(#[from] png::DecodingError),
     #[error(transparent)] Io(#[from] std::io::Error),
 }
 
@@ -19,11 +20,6 @@ impl serde::Serialize for Error {
         serializer.serialize_str(self.to_string().as_ref())
     }
 }
-
-// use img_parts::png::Png;
-// use img_parts::{ ImageEXIF, ImageICC };
-// use std::fs::{ self, File };
-// use std::fmt;
 
 #[tauri::command]
 fn read_img_test() -> Result<Vec<String>, Error> {
@@ -36,17 +32,8 @@ fn read_img_test() -> Result<Vec<String>, Error> {
     let mut buf = vec![0; reader.output_buffer_size()];
     let info = reader.next_frame(&mut buf).unwrap();
     println!("Info: {:?}", info);
-    println!("INFO LIST --> {:?}", &reader.info().uncompressed_latin1_text[1]);
-    // let img_info = format!(
-    //     "parameters:{:?}, data_parameters:{:?}",
-    //     &reader.info().uncompressed_latin1_text[0].text,
-    //     &reader.info().uncompressed_latin1_text[1].text
-    // );
-    // formatted_strings.push_str(&img_info);
-    let parameters = format!("{:?}", &reader.info().uncompressed_latin1_text[0].text);
-    let data_parameters = format!("{:?}", &reader.info().uncompressed_latin1_text[1].text);
-    formatted_strings.push(parameters);
-    formatted_strings.push(data_parameters);
+    formatted_strings.push(reader.info().uncompressed_latin1_text[0].text.clone());
+    formatted_strings.push(reader.info().uncompressed_latin1_text[1].text.clone());
     // for text_chunk in &reader.info().uncompressed_latin1_text {
     //     println!("Keyword: {:?}", text_chunk.keyword);
     //     println!("Text Chunk: {:?}", text_chunk);
@@ -54,10 +41,20 @@ fn read_img_test() -> Result<Vec<String>, Error> {
     Ok(formatted_strings)
 }
 
+use tauri::http::Request;
+use serde_json::Value;
+
+#[tauri::command]
+fn upload_img_test(file: String) -> Result<String, Error> {
+    println!("THAT'S IT? {}", file);
+
+    Ok("maybe?".to_string())
+}
+
 fn main() {
     tauri::Builder
         ::default()
-        .invoke_handler(tauri::generate_handler![greet, read_img_test])
+        .invoke_handler(tauri::generate_handler![greet, read_img_test, upload_img_test])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
