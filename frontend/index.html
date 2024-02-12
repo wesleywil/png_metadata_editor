@@ -13,29 +13,28 @@
     <section class="container">
         <!-- Image and Upload Button -->
         <div class="sub_container">
-            <div id="to_remove" class="to_remove"></div>
-            <button id="btn_upload_img">Upload Image</button>
-            <!-- <input type="file" name="png_file" id="png_file" class="btn_upload"> -->
+            <div id="img_container" class="img_container"></div>
+            <button id="btn_upload_img" class="btn_upload">Upload Image</button>
         </div>
         <!-- Image Info and Edit Buttons -->
         <div class="sub_container">
-            <input type="text" placeholder="Image Title" class="title">
+            <input type="text" placeholder="Image Title" id="title" class="title">
             <!-- Text Parameters -->
             <div class="img_prompt_container">
                 <span>Prompt</span>
                 <textarea name="text_params" id="text_params" rows="8" placeholder="Image Text Parameters"></textarea>
-                <div class="btn_container">
-                    <button>Update Prompt</button>
-                </div>
+
             </div>
             <!-- Text Generation_Data -->
             <div class="img_generation_data_container">
                 <span>Extra Info</span>
                 <textarea name="generation_data_params" id="generation_data_params" rows="8"
                     placeholder="Image Generation Data"></textarea>
-                <div class="btn_container">
-                    <button>Update Data</button>
-                </div>
+
+            </div>
+            <!-- Update Image Metada -->
+            <div class="action_btn_container">
+                <button>Update Metadata</button>
             </div>
         </div>
     </section>
