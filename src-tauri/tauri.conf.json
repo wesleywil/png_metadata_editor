@@ -19,6 +19,21 @@
       },
       "dialog": {
         "open": true
+      },
+      "path": {
+        "all": true
+      },
+      "fs": {
+        "all": true,
+        "scope": [
+          "**"
+        ]
+      },
+      "protocol": {
+        "asset": true,
+        "assetScope": [
+          "**"
+        ]
       }
     },
     "bundle": {
@@ -55,7 +70,7 @@
       }
     },
     "security": {
-      "csp": null
+      "csp": "asset"
     },
     "updater": {
       "active": false
