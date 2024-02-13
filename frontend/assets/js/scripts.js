@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const imgParams = document.getElementById("text_params");
     const dataParams = document.getElementById("generation_data_params");
     const uploadImage = document.getElementById("btn_upload_img");
+    const btnTest = document.getElementById("btn_test");
 
     uploadImage.addEventListener("click", async () => {
         const removeImg = document.getElementById("img_upload_ig");
@@ -39,4 +40,20 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log('Error: ----> ', err);
         }
     });
+
+    // Only for test
+    btnTest.addEventListener("click", () => {
+        const test_decode_encode = async () => {
+            try {
+                const test = await invoke("png_metadata_edit");
+                console.log("Result ===> ", test);
+            } catch (err) {
+                console.log("Error in Decode/Encode ===> ", err);
+            }
+        }
+
+        test_decode_encode()
+    })
+
+
 });
