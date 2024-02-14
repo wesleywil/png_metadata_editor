@@ -38,11 +38,51 @@ fn upload_img(file: String) -> Result<Vec<String>, Error> {
     Ok(formatted_strings)
 }
 
+fn png_path_out_edit(file_in_raw: String) -> String {
+    let file_in = file_in_raw.replace("\\", "/");
+    let last_slash_index = match file_in.rfind('/') {
+        Some(index) => index,
+        None => {
+            println!("Error: Unable to find the directory path!");
+            return String::new();
+        }
+    };
+
+    // Extract directory path and filename
+    let (dir_path, file_name) = file_in.split_at(last_slash_index + 1);
+
+    // Find the last occurrence of '.' to extract the file extension
+    let last_dot_index = match file_name.rfind('.') {
+        Some(index) => index,
+        None => {
+            println!("Error: Unable to find the file extension!");
+            return String::new();
+        }
+    };
+
+    // Extract filename without extension
+    let (file_name_without_ext, file_ext) = file_name.split_at(last_dot_index);
+
+    // Build the new filename with "_edited" appended before the file extension
+    let new_file_name = format!("{}{}{}", file_name_without_ext, "_edited", file_ext);
+
+    // Concatanate the directory path and the new filename
+    let file_out = format!("{}{}", dir_path, new_file_name);
+
+    println!("This is the path for the modified png: {}", file_out);
+
+    return file_out;
+}
+
 #[tauri::command]
-fn png_metadata_edit() -> Result<(), Error> {
-    let file_path =
-        "C:/Users/wesle/OneDrive/Área de Trabalho/Projects/edit_png/src-tauri/src/test_img/to_test.png";
-    let decoder = png::Decoder::new(File::open(file_path).unwrap());
+fn png_metadata_edit(
+    parameters: String,
+    data_generation: String,
+    file_path: String
+) -> Result<(), Error> {
+    println!("FILE PATH ===> {}", file_path);
+
+    let decoder = png::Decoder::new(File::open(file_path.clone()).unwrap());
     let mut reader = decoder.read_info().unwrap();
     let mut buf = vec![0; reader.output_buffer_size()];
     let info = reader.next_frame(&mut buf).unwrap();
@@ -50,17 +90,16 @@ fn png_metadata_edit() -> Result<(), Error> {
     let png_info = reader.info();
 
     // Encode
-    let path_out = Path::new(
-        "C:/Users/wesle/OneDrive/Área de Trabalho/Projects/edit_png/src-tauri/src/test_img/to_test_edited.png"
-    );
+    let path_out_string = png_path_out_edit(file_path);
+    let path_out = Path::new(&path_out_string);
     let file = File::create(path_out)?;
     let ref mut w = std::io::BufWriter::new(file);
 
     let mut encoder = png::Encoder::new(w, png_info.width, png_info.height);
     encoder.set_color(png_info.color_type);
     encoder.set_depth(png_info.bit_depth);
-    encoder.add_text_chunk("parameters".to_string(), "FX".to_string());
-    encoder.add_text_chunk("data_generation".to_string(), "F".to_string());
+    encoder.add_text_chunk("parameters".to_string(), parameters);
+    encoder.add_text_chunk("data_generation".to_string(), data_generation);
     let mut writer = encoder.write_header().unwrap();
     writer.write_image_data(bytes).unwrap();
 
