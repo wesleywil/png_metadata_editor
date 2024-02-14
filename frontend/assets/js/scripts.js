@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const imgParams = document.getElementById("text_params");
     const dataParams = document.getElementById("generation_data_params");
     const uploadImage = document.getElementById("btn_upload_img");
-    const btnTest = document.getElementById("btn_test");
+    const btnUpdate = document.getElementById("btn_update");
+    let openFile = "";
 
     uploadImage.addEventListener("click", async () => {
         const removeImg = document.getElementById("img_upload_ig");
@@ -19,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
-            const openFile = await open({
+            openFile = await open({
                 multiple: false,
                 filters: [{
                     name: "img",
@@ -42,10 +43,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Only for test
-    btnTest.addEventListener("click", () => {
+    btnUpdate.addEventListener("click", () => {
+        console.log("Parameters: ", imgParams.value);
+        console.log("Data Parameters: ", dataParams.value);
         const test_decode_encode = async () => {
             try {
-                const test = await invoke("png_metadata_edit");
+
+                const test = await invoke("png_metadata_edit", { parameters: imgParams.value, dataGeneration: dataParams.value, filePath: openFile });
                 console.log("Result ===> ", test);
             } catch (err) {
                 console.log("Error in Decode/Encode ===> ", err);
@@ -54,6 +58,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         test_decode_encode()
     })
+
+
 
 
 });
