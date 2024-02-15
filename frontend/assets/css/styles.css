@@ -35,8 +35,8 @@ body {
 .img_container {
     width: 410px;
     height: 615px;
-    background-color: var(--light-color);
-    opacity: 50%;
+    margin-top: 5px;
+    background-color: #fffeff57;
     border-radius: 10px;
     overflow: hidden;
 }
@@ -46,11 +46,16 @@ body {
     height: 100%;
 }
 
-.upload_img {
-    width: 410px;
-    height: 615px;
-    border-radius: 10px;
+.square {
+    width: 410px !important;
+    height: 410px !important;
 }
+
+.landscape {
+    width: 410px !important;
+    height: 231px !important;
+}
+
 
 .btn_upload {
     margin-top: 5px;
@@ -83,7 +88,6 @@ body {
 
 .img_prompt_container {
     width: 90%;
-    margin-top: 10px;
 }
 
 span {
@@ -135,4 +139,47 @@ textarea:focus-visible {
 .action_btn_container button:active {
     background-color: #c4c4c4;
     transition: 0s;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Done Page */
+
+.done_container {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.done_msg {
+    font-size: 1rem;
+    color: #fffeff;
+    font-weight: bold;
+}
+
+.done_icon {
+    padding: 10px;
+    background-color: #fffeff;
+    border-radius: 100%;
+}
+
+.done_back {
+    margin-top: 20px;
+    padding: 5px 20px;
+    color: #172430;
+    background-color: #e26a69;
+    font-size: 2rem;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.5s ease-in-out;
+}
+
+.done_back:hover {
+    background-color: #fffeff;
+
 }
