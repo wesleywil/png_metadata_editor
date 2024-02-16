@@ -44,8 +44,10 @@ fn upload_img(file: String) -> Result<Vec<String>, Error> {
 fn png_metadata_edit(
     parameters: String,
     data_generation: String,
+    no_extra_data: bool,
     file_path: String
 ) -> Result<(), Error> {
+    // Decode
     let decoder = png::Decoder::new(File::open(file_path.clone()).unwrap());
     let mut reader = decoder.read_info().unwrap();
     let mut buf = vec![0; reader.output_buffer_size()];
@@ -63,7 +65,10 @@ fn png_metadata_edit(
     encoder.set_color(png_info.color_type);
     encoder.set_depth(png_info.bit_depth);
     let _ = encoder.add_text_chunk("parameters".to_string(), parameters);
-    let _ = encoder.add_text_chunk("data_generation".to_string(), data_generation);
+    if no_extra_data == true {
+    } else {
+        let _ = encoder.add_text_chunk("data_generation".to_string(), data_generation);
+    }
     let mut writer = encoder.write_header().unwrap();
     writer.write_image_data(bytes).unwrap();
     Ok(())
