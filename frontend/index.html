@@ -26,16 +26,26 @@
 
             </div>
             <!-- Text Generation_Data -->
-            <div class="img_generation_data_container">
+            <div class="img_generation_data_container" id="extra_data">
                 <span>Extra Info</span>
                 <textarea name="generation_data_params" id="generation_data_params" rows="8"
                     placeholder="Image Generation Data"></textarea>
-
             </div>
+            <!-- Remove the extra data - generation data -->
+
+            <div class="remove_extra_data">
+                <span class="remove_extra_data_span">Remove Extra Data</span>
+                <input type="checkbox" name="remove_extra_data" id="remove_extra_data">
+            </div>
+
             <!-- Update Image Metada -->
             <div class="action_btn_container">
                 <button id="btn_update">Update Metadata</button>
             </div>
+
+        </div>
+
+
         </div>
     </section>
 </body>
